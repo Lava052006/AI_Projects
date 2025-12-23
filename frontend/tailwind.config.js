@@ -1,0 +1,28 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: {
+        'mono': ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+        'sans': ['Inter', 'system-ui', 'sans-serif'],
+      },
+      colors: {
+        primary: {
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+        }
+      },
+      animation: {
+        'spin-slow': 'spin 2s linear infinite',
+        'pulse-soft': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      }
+    },
+  },
+  plugins: [],
+};
