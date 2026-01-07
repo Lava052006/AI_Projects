@@ -1,0 +1,35 @@
+/* content.css - Styling for job risk badges */
+
+.job-risk-badge-container {
+  pointer-events: none;
+}
+
+.job-risk-badge {
+  pointer-events: auto;
+  transition: transform 0.2s ease;
+}
+
+.job-risk-badge:hover {
+  transform: scale(1.05);
+}
+
+/* Make sure badges stay on top */
+.job-risk-badge-container {
+  z-index: 9999 !important;
+}
+
+/* Animate badge appearance */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.job-risk-badge {
+  animation: slideIn 0.3s ease-out;
+}

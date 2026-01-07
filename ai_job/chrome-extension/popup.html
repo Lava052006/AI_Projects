@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Scam Detector</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Job Scam Detector</h1>
+        </header>
+        
+        <main>
+            <div class="input-section">
+                <label for="job-description">Job Description:</label>
+                <textarea 
+                    id="job-description" 
+                    placeholder="Paste the job description here..."
+                    rows="6"
+                ></textarea>
+                
+                <button id="analyze-btn" class="analyze-button">
+                    Analyze Job
+                </button>
+            </div>
+            
+            <div id="result-section" class="result-section hidden">
+                <div class="result-header">
+                    <h2>Analysis Results</h2>
+                </div>
+                
+                <div class="verdict-container">
+                    <div class="verdict-label">Verdict:</div>
+                    <div id="verdict" class="verdict"></div>
+                </div>
+                
+                <div class="risk-score-container">
+                    <div class="risk-score-label">Risk Score:</div>
+                    <div id="risk-score" class="risk-score"></div>
+                </div>
+                
+                <div class="flags-container">
+                    <div class="flags-label">Warning Flags:</div>
+                    <ul id="flags-list" class="flags-list"></ul>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Fake Job Detector AI",
+  "version": "1.0",
+  "description": "Analyze job postings for potential fraud and suspicious activity",
+  "permissions": [
+    "activeTab"
+  ],
+  "host_permissions": [
+    "http://localhost:8000/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+       "matches": [
+        "https://www.linkedin.com/jobs/*",
+        "https://www.linkedin.com/jobs/view/*",
+        "https://www.linkedin.com/jobs/search/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
+

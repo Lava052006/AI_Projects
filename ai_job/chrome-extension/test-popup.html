@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extension Test Page</title>
+    <link rel="stylesheet" href="popup.css">
+    <style>
+        body {
+            margin: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .extension-preview {
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+        }
+        .test-data {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .status.info { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Chrome Extension Test Page</h1>
+        <p>This page allows you to test the extension popup functionality in a regular browser window.</p>
+        
+        <div class="extension-preview">
+            <!-- Include the actual popup HTML content -->
+            <div class="container">
+                <header>
+                    <h1>Job Scam Detector</h1>
+                </header>
+                
+                <main>
+                    <div class="input-section">
+                        <label for="job-description">Job Description:</label>
+                        <textarea 
+                            id="job-description" 
+                            placeholder="Paste the job description here..."
+                            rows="6"
+                        ></textarea>
+                        
+                        <button id="analyze-btn" class="analyze-button">
+                            Analyze Job
+                        </button>
+                    </div>
+                    
+                    <div id="result-section" class="result-section hidden">
+                        <div class="result-header">
+                            <h2>Analysis Results</h2>
+                        </div>
+                        
+                        <div class="verdict-container">
+                            <div class="verdict-label">Verdict:</div>
+                            <div id="verdict" class="verdict"></div>
+                        </div>
+                        
+                        <div class="risk-score-container">
+                            <div class="risk-score-label">Risk Score:</div>
+                            <div id="risk-score" class="risk-score"></div>
+                        </div>
+                        
+                        <div class="flags-container">
+                            <div class="flags-label">Warning Flags:</div>
+                            <ul id="flags-list" class="flags-list"></ul>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Quick Test Data</h3>
+            <p>Click these buttons to populate the textarea with test data:</p>
+            
+            <button onclick="loadTestData('high-risk')">High Risk Job</button>
+            <button onclick="loadTestData('safe')">Safe Job</button>
+            <button onclick="loadTestData('caution')">Caution Job</button>
+            <button onclick="clearData()">Clear</button>
+            
+            <div id="test-data-high-risk" class="test-data" style="display: none;">Easy money opportunity! $5000/week working from home. No experience needed. Send SSN and bank details to get started. Contact: money@get-rich-quick.net. Urgent hiring!</div>
+            
+            <div id="test-data-safe" class="test-data" style="display: none;">Senior Software Engineer at Google. Competitive salary based on experience. Full benefits package including health insurance. Apply through official Google careers page. Contact: careers@google.com</div>
+            
+            <div id="test-data-caution" class="test-data" style="display: none;">Marketing Assistant position. $50,000 salary. Some requirements unclear. Contact: hr@newcompany.biz. Remote work available.</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>API Status</h3>
+            <button onclick="checkApiStatus()">Check API Status</button>
+            <div id="api-status" class="status info">Click button to check API status</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Test Instructions</h3>
+            <ol>
+                <li><strong>Start the API server:</strong> <code>python -m uvicorn app.main:app --host 0.0.0.0 --port 8000</code></li>
+                <li><strong>Check API status</strong> using the button above</li>
+                <li><strong>Load test data</strong> using the buttons above</li>
+                <li><strong>Click "Analyze Job"</strong> to test the functionality</li>
+                <li><strong>Verify results:</strong>
+                    <ul>
+                        <li>High Risk jobs should show red verdict</li>
+                        <li>Safe jobs should show green verdict</li>
+                        <li>Caution jobs should show orange verdict</li>
+                        <li>Flags should appear as bullet points</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+    <script>
+        // Additional test functions
+        function loadTestData(type) {
+            const textarea = document.getElementById('job-description');
+            const testDataElement = document.getElementById('test-data-' + type);
+            if (testDataElement) {
+                textarea.value = testDataElement.textContent.trim();
+                // Trigger input event to enable button
+                textarea.dispatchEvent(new Event('input'));
+            }
+        }
+        
+        function clearData() {
+            const textarea = document.getElementById('job-description');
+            textarea.value = '';
+            textarea.dispatchEvent(new Event('input'));
+            
+            // Hide results
+            const resultSection = document.getElementById('result-section');
+            resultSection.classList.add('hidden');
+        }
+        
+        async function checkApiStatus() {
+            const statusDiv = document.getElementById('api-status');
+            statusDiv.textContent = 'Checking API status...';
+            statusDiv.className = 'status info';
+            
+            try {
+                const response = await fetch('http://localhost:8000/health');
+                if (response.ok) {
+                    const data = await response.json();
+                    statusDiv.textContent = `✅ API is running: ${data.status}`;
+                    statusDiv.className = 'status success';
+                } else {
+                    statusDiv.textContent = `❌ API returned status: ${response.status}`;
+                    statusDiv.className = 'status error';
+                }
+            } catch (error) {
+                statusDiv.textContent = `❌ Cannot connect to API: ${error.message}`;
+                statusDiv.className = 'status error';
+            }
+        }
+        
+        // Override alert function to show in page instead
+        window.alert = function(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'status error';
+            alertDiv.textContent = message;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '20px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.zIndex = '9999';
+            alertDiv.style.maxWidth = '300px';
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                document.body.removeChild(alertDiv);
+            }, 5000);
+        };
+    </script>
+</body>
+</html>
