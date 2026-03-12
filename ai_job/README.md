@@ -1,5 +1,5 @@
 
-# **Kiro AI Job Detector – Architecture Overview**
+# **Fake Job Detector AI – Architecture Overview**
 
 ## 1️⃣ **User Interaction Layer (Chrome Extension)**
 
