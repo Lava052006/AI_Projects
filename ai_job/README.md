@@ -1,6 +1,3 @@
-Perfect! Let’s break down the **final architecture of your AI Fake Job Detector Chrome extension + backend** in a clean, demo-ready way. I’ll explain it step by step so you can show it to anyone — judges, teammates, or even yourself in 2 months 😄.
-
----
 
 # **Kiro AI Job Detector – Architecture Overview**
 
